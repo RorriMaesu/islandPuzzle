@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Puzzle Colony</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="A browser-based resource management and island building game where players collect resources by matching tiles and use them to build structures on their island.">
+</head>
+<body>
+  <div id="loading-screen">
+    <div class="spinner"></div>
+    <p>Loading Puzzle Colony...</p>
+  </div>
+  <div id="notification-container"></div>
+  <div id="game-container" style="display: none;">
+    <header>
+      <div class="header-top">
+        <h1>Puzzle Colony</h1>
+        <div id="score-container">
+          <span id="score">Score: 0</span>
+          <span id="level">Level: 1</span>
+        </div>
+      </div>
+      <div id="resources">
+        <span id="wood">Wood: 0</span>
+        <span id="stone">Stone: 0</span>
+        <span id="food">Food: 0</span>
+      </div>
+    </header>
+    <main>
+      <div id="board"></div>
+      <div id="build-panel">
+        <button id="build-hut">Build Hut (10 Wood)</button>
+        <button id="build-farm">Build Farm (10 Food)</button>
+        <button id="build-mine" disabled>Build Mine (15 Stone)</button>
+      </div>
+      <div id="island-container">
+        <h2>Your Island</h2>
+        <div id="island"></div>
+      </div>
+    </main>
+    <footer>
+      <button id="reset-game">Reset Game</button>
+      <button id="help-button">How to Play</button>
+    </footer>
+  </div>
+
+  <!-- Instructions Modal -->
+  <div id="instructions-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>How to Play Puzzle Colony</h2>
+      <div class="instructions">
+        <h3>Collect Resources</h3>
+        <p>Click on tiles in the grid to collect resources:</p>
+        <ul>
+          <li><span class="resource wood">W</span> - Wood</li>
+          <li><span class="resource stone">S</span> - Stone</li>
+          <li><span class="resource food">F</span> - Food</li>
+        </ul>
+
+        <h3>Build Structures</h3>
+        <p>Use your resources to build structures on your island:</p>
+        <ul>
+          <li><strong>Hut</strong> - Costs 10 Wood</li>
+          <li><strong>Farm</strong> - Costs 10 Food (generates Food every 10 seconds)</li>
+          <li><strong>Mine</strong> - Costs 15 Stone (generates Stone every 10 seconds, unlocks at Level 2)</li>
+        </ul>
+
+        <h3>Level Up</h3>
+        <p>Build 3 structures to reach Level 2 and unlock the Mine building.</p>
+
+        <h3>Keyboard Shortcuts</h3>
+        <p>Press <strong>R</strong> to reset the game.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

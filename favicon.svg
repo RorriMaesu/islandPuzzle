@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <title>Puzzle Colony Favicon</title>
+  <g stroke="none" fill="none">
+    <rect fill="#3498db" x="0" y="0" width="32" height="32" rx="4"></rect>
+    <rect fill="#8bc34a" x="4" y="4" width="11" height="11" rx="2"></rect>
+    <rect fill="#e96" x="17" y="4" width="11" height="11" rx="2"></rect>
+    <rect fill="#bbb" x="4" y="17" width="11" height="11" rx="2"></rect>
+    <rect fill="#8d6e63" x="17" y="17" width="11" height="11" rx="2"></rect>
+  </g>
+</svg>

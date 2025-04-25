@@ -23,27 +23,384 @@
           <span id="level">Level: 1</span>
         </div>
       </div>
+      <div id="player-stats">
+        <div class="stat-container">
+          <div class="level-badge" id="level-display">1</div>
+          <div class="progress-bar-container">
+            <div id="experience-bar" class="progress-bar"></div>
+            <span id="experience-text">XP: 0/100</span>
+          </div>
+        </div>
+        <div class="energy-container">
+          <div class="energy-icon">⚡</div>
+          <div class="progress-bar-container">
+            <div id="energy-bar" class="progress-bar energy"></div>
+            <span id="energy-text">Energy: 100/100</span>
+          </div>
+        </div>
+      </div>
       <div id="resources">
-        <span id="wood">Wood: 0</span>
-        <span id="stone">Stone: 0</span>
-        <span id="food">Food: 0</span>
+        <span id="wood" class="resource-item"><i class="resource-icon">🪵</i> <span class="resource-count">0</span></span>
+        <span id="stone" class="resource-item"><i class="resource-icon">🪨</i> <span class="resource-count">0</span></span>
+        <span id="food" class="resource-item"><i class="resource-icon">🍎</i> <span class="resource-count">0</span></span>
+        <span id="gems" class="resource-item premium"><i class="resource-icon">💎</i> <span class="resource-count">0</span></span>
+        <div id="advanced-resources" style="display: none;">
+          <span id="knowledge" class="resource-item special"><i class="resource-icon">📚</i> <span class="resource-count">0</span></span>
+          <span id="metal" class="resource-item special"><i class="resource-icon">⚙️</i> <span class="resource-count">0</span></span>
+          <span id="crystal" class="resource-item premium"><i class="resource-icon">💠</i> <span class="resource-count">0</span></span>
+        </div>
+      </div>
+      <div id="streak-container">
+        <span id="streak-counter">Streak: 0</span>
+        <span id="multiplier">×1</span>
       </div>
     </header>
     <main>
       <div id="board"></div>
-      <div id="build-panel">
-        <button id="build-hut">Build Hut (10 Wood)</button>
-        <button id="build-farm">Build Farm (10 Food)</button>
-        <button id="build-mine" disabled>Build Mine (15 Stone)</button>
+      <div id="game-tabs">
+        <button class="tab-button active" data-tab="build">Build</button>
+        <button class="tab-button" data-tab="upgrade">Upgrade</button>
+        <button class="tab-button" data-tab="quests">Quests</button>
+        <button class="tab-button" data-tab="achievements">Achievements</button>
+        <button class="tab-button" data-tab="social">Social</button>
+      </div>
+
+      <div id="tab-content">
+        <!-- Build Tab -->
+        <div class="tab-pane active" id="build-tab">
+          <div class="build-category">
+            <h3>Basic Buildings</h3>
+            <div class="build-items">
+              <div class="build-item" id="build-hut">
+                <div class="build-icon">🏠</div>
+                <div class="build-info">
+                  <h4>Hut</h4>
+                  <p>+1 Population</p>
+                  <div class="build-cost">
+                    <span class="cost-item">🪵 10</span>
+                  </div>
+                </div>
+                <div class="build-count">0</div>
+              </div>
+
+              <div class="build-item" id="build-farm">
+                <div class="build-icon">🌾</div>
+                <div class="build-info">
+                  <h4>Farm</h4>
+                  <p>+1 Food/cycle</p>
+                  <div class="build-cost">
+                    <span class="cost-item">🍎 10</span>
+                  </div>
+                </div>
+                <div class="build-count">0</div>
+              </div>
+
+              <div class="build-item locked" id="build-mine">
+                <div class="build-icon">⛏️</div>
+                <div class="build-info">
+                  <h4>Mine</h4>
+                  <p>+1 Stone/cycle</p>
+                  <div class="build-cost">
+                    <span class="cost-item">🪨 15</span>
+                  </div>
+                </div>
+                <div class="build-count">0</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="build-category">
+            <h3>Advanced Buildings</h3>
+            <div class="build-items">
+              <div class="build-item locked" id="build-workshop">
+                <div class="build-icon">🔨</div>
+                <div class="build-info">
+                  <h4>Workshop</h4>
+                  <p>+2 Wood/cycle</p>
+                  <div class="build-cost">
+                    <span class="cost-item">🪵 25</span>
+                    <span class="cost-item">🪨 15</span>
+                  </div>
+                </div>
+                <div class="build-count">0</div>
+              </div>
+
+              <div class="build-item locked" id="build-temple">
+                <div class="build-icon">🏛️</div>
+                <div class="build-info">
+                  <h4>Temple</h4>
+                  <p>+1 Gem/cycle</p>
+                  <div class="build-cost">
+                    <span class="cost-item">🪨 30</span>
+                    <span class="cost-item">🍎 20</span>
+                  </div>
+                </div>
+                <div class="build-count">0</div>
+              </div>
+
+              <div class="build-item locked" id="build-market">
+                <div class="build-icon">🏪</div>
+                <div class="build-info">
+                  <h4>Market</h4>
+                  <p>+10% resources</p>
+                  <div class="build-cost">
+                    <span class="cost-item">🪵 20</span>
+                    <span class="cost-item">🍎 20</span>
+                    <span class="cost-item">💎 1</span>
+                  </div>
+                </div>
+                <div class="build-count">0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upgrade Tab -->
+        <div class="tab-pane" id="upgrade-tab">
+          <div class="upgrade-items">
+            <div class="upgrade-item" id="upgrade-tools">
+              <div class="upgrade-icon">🔧</div>
+              <div class="upgrade-info">
+                <h4>Efficient Tools</h4>
+                <p>+20% wood per click</p>
+                <div class="upgrade-cost">
+                  <span class="cost-item">🪵 50</span>
+                  <span class="cost-item">🪨 30</span>
+                </div>
+              </div>
+              <div class="upgrade-level">Lvl 0</div>
+            </div>
+
+            <div class="upgrade-item" id="upgrade-soil">
+              <div class="upgrade-icon">🌱</div>
+              <div class="upgrade-info">
+                <h4>Fertile Soil</h4>
+                <p>+20% food per click</p>
+                <div class="upgrade-cost">
+                  <span class="cost-item">🍎 50</span>
+                  <span class="cost-item">🪵 30</span>
+                </div>
+              </div>
+              <div class="upgrade-level">Lvl 0</div>
+            </div>
+
+            <div class="upgrade-item" id="upgrade-drill">
+              <div class="upgrade-icon">🔩</div>
+              <div class="upgrade-info">
+                <h4>Mining Drill</h4>
+                <p>+20% stone per click</p>
+                <div class="upgrade-cost">
+                  <span class="cost-item">🪨 50</span>
+                  <span class="cost-item">🪵 30</span>
+                </div>
+              </div>
+              <div class="upgrade-level">Lvl 0</div>
+            </div>
+
+            <div class="upgrade-item" id="upgrade-trade">
+              <div class="upgrade-icon">🚢</div>
+              <div class="upgrade-info">
+                <h4>Trade Routes</h4>
+                <p>+10% all resources</p>
+                <div class="upgrade-cost">
+                  <span class="cost-item">🪵 40</span>
+                  <span class="cost-item">🍎 40</span>
+                  <span class="cost-item">🪨 40</span>
+                </div>
+              </div>
+              <div class="upgrade-level">Lvl 0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quests Tab -->
+        <div class="tab-pane" id="quests-tab">
+          <div id="active-quests">
+            <h3>Active Quests</h3>
+            <div class="quest-list" id="active-quest-list">
+              <div class="quest-item">
+                <div class="quest-info">
+                  <h4>Island Starter</h4>
+                  <p>Build your first hut</p>
+                  <div class="quest-progress">
+                    <div class="progress-bar-container">
+                      <div class="progress-bar" style="width: 0%"></div>
+                    </div>
+                    <span>0/1</span>
+                  </div>
+                </div>
+                <div class="quest-reward">
+                  <span class="reward-item">🪵 +20</span>
+                  <span class="reward-item">XP +50</span>
+                </div>
+              </div>
+
+              <div class="quest-item">
+                <div class="quest-info">
+                  <h4>Resource Gatherer</h4>
+                  <p>Collect 50 resources</p>
+                  <div class="quest-progress">
+                    <div class="progress-bar-container">
+                      <div class="progress-bar" style="width: 0%"></div>
+                    </div>
+                    <span>0/50</span>
+                  </div>
+                </div>
+                <div class="quest-reward">
+                  <span class="reward-item">💎 +1</span>
+                  <span class="reward-item">XP +100</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="completed-quests">
+            <h3>Completed Quests</h3>
+            <div class="quest-list" id="completed-quest-list">
+              <!-- Completed quests will appear here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Achievements Tab -->
+        <div class="tab-pane" id="achievements-tab">
+          <div class="achievement-list" id="achievement-list">
+            <div class="achievement-item locked">
+              <div class="achievement-icon">🏆</div>
+              <div class="achievement-info">
+                <h4>First Steps</h4>
+                <p>Build 5 buildings</p>
+              </div>
+              <div class="achievement-progress">0/5</div>
+            </div>
+
+            <div class="achievement-item locked">
+              <div class="achievement-icon">⭐</div>
+              <div class="achievement-info">
+                <h4>Resource Baron</h4>
+                <p>Collect 1000 total resources</p>
+              </div>
+              <div class="achievement-progress">0/1000</div>
+            </div>
+
+            <div class="achievement-item locked">
+              <div class="achievement-icon">🔥</div>
+              <div class="achievement-info">
+                <h4>Combo Master</h4>
+                <p>Reach a 10x streak multiplier</p>
+              </div>
+              <div class="achievement-progress">0/10</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Tab -->
+        <div class="tab-pane" id="social-tab">
+          <div id="social-login-container">
+            <h3>Connect to Play with Friends</h3>
+            <p>Sign in to access social features, trading, and cloud saving.</p>
+            <div id="login-buttons">
+              <button id="login-button" class="social-button">Sign In</button>
+              <button id="register-button" class="social-button">Create Account</button>
+            </div>
+          </div>
+
+          <div id="social-connected-container" style="display: none;">
+            <div class="social-header">
+              <div id="user-profile">
+                <div class="profile-avatar">👤</div>
+                <div class="profile-info">
+                  <h3 id="profile-name">Player</h3>
+                  <p id="profile-level">Level: 1</p>
+                </div>
+              </div>
+              <div class="social-actions">
+                <button id="logout-button" class="social-button small">Sign Out</button>
+              </div>
+            </div>
+
+            <div class="social-tabs">
+              <button class="social-tab-button active" data-social-tab="friends">Friends</button>
+              <button class="social-tab-button" data-social-tab="requests">Requests</button>
+              <button class="social-tab-button" data-social-tab="trading">Trading</button>
+            </div>
+
+            <div class="social-tab-content">
+              <!-- Friends Tab -->
+              <div class="social-tab-pane active" id="friends-tab">
+                <div class="friends-actions">
+                  <input type="text" id="friend-code-input" placeholder="Enter friend code">
+                  <button id="add-friend-button">Add Friend</button>
+                </div>
+                <div class="friends-list" id="friends-list">
+                  <p class="empty-list-message">You don't have any friends yet. Add friends using their friend code.</p>
+                </div>
+              </div>
+
+              <!-- Requests Tab -->
+              <div class="social-tab-pane" id="requests-tab">
+                <h4>Friend Requests</h4>
+                <div class="requests-list" id="friend-requests-list">
+                  <p class="empty-list-message">No pending friend requests.</p>
+                </div>
+
+                <h4>Your Friend Code</h4>
+                <div class="friend-code-container">
+                  <span id="player-friend-code">Loading...</span>
+                  <button id="copy-friend-code" class="social-button small">Copy</button>
+                </div>
+              </div>
+
+              <!-- Trading Tab -->
+              <div class="social-tab-pane" id="trading-tab">
+                <div id="trading-locked">
+                  <p>Trading will be unlocked at level 32 when you build a Trading Post.</p>
+                </div>
+                <div id="trading-unlocked" style="display: none;">
+                  <div class="trading-actions">
+                    <button id="create-trade-button">Create Trade Offer</button>
+                  </div>
+                  <h4>Active Trades</h4>
+                  <div class="trades-list" id="active-trades-list">
+                    <p class="empty-list-message">No active trades.</p>
+                  </div>
+                  <h4>Trade History</h4>
+                  <div class="trades-list" id="completed-trades-list">
+                    <p class="empty-list-message">No completed trades.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div id="island-container">
-        <h2>Your Island</h2>
-        <div id="island"></div>
+        <div class="island-header">
+          <h2>Your Island</h2>
+          <div class="island-stats">
+            <span id="population-counter"><i class="stat-icon">👥</i> Population: 0</span>
+            <span id="happiness-counter"><i class="stat-icon">😊</i> Happiness: 100%</span>
+          </div>
+        </div>
+        <div id="island-grid">
+          <div class="island-background"></div>
+          <div id="island"></div>
+        </div>
+        <div class="island-actions">
+          <button id="expand-island" disabled>Expand Island (💎 5)</button>
+          <button id="decorate-island" disabled>Decorate (💎 2)</button>
+        </div>
       </div>
     </main>
     <footer>
-      <button id="reset-game">Reset Game</button>
-      <button id="help-button">How to Play</button>
+      <div class="footer-buttons">
+        <button id="daily-reward" class="special-button">Daily Reward</button>
+        <button id="special-event" class="special-button" disabled>Special Event</button>
+        <button id="settings-button">Settings</button>
+        <button id="help-button">How to Play</button>
+        <button id="reset-game">Reset Game</button>
+      </div>
+      <div class="game-version">v1.0.0</div>
     </footer>
   </div>
 
@@ -56,28 +413,381 @@
         <h3>Collect Resources</h3>
         <p>Click on tiles in the grid to collect resources:</p>
         <ul>
-          <li><span class="resource wood">W</span> - Wood</li>
-          <li><span class="resource stone">S</span> - Stone</li>
-          <li><span class="resource food">F</span> - Food</li>
+          <li><span class="resource-icon">🪵</span> - Wood</li>
+          <li><span class="resource-icon">🪨</span> - Stone</li>
+          <li><span class="resource-icon">🍎</span> - Food</li>
+          <li><span class="resource-icon">💎</span> - Gems (premium currency)</li>
         </ul>
+
+        <h3>Energy System</h3>
+        <p>Each tile click costs 1 energy. Energy regenerates over time or can be refilled with gems.</p>
+
+        <h3>Streak Multiplier</h3>
+        <p>Click tiles quickly to build up your streak multiplier and earn bonus resources!</p>
 
         <h3>Build Structures</h3>
         <p>Use your resources to build structures on your island:</p>
         <ul>
-          <li><strong>Hut</strong> - Costs 10 Wood</li>
-          <li><strong>Farm</strong> - Costs 10 Food (generates Food every 10 seconds)</li>
-          <li><strong>Mine</strong> - Costs 15 Stone (generates Stone every 10 seconds, unlocks at Level 2)</li>
+          <li><strong>Hut</strong> - Increases population</li>
+          <li><strong>Farm</strong> - Generates Food</li>
+          <li><strong>Mine</strong> - Generates Stone</li>
+          <li><strong>Workshop</strong> - Generates Wood</li>
+          <li><strong>Temple</strong> - Generates Gems</li>
+          <li><strong>Market</strong> - Increases all resource production</li>
         </ul>
 
+        <h3>Upgrades</h3>
+        <p>Purchase upgrades to increase your resource gathering efficiency.</p>
+
+        <h3>Quests & Achievements</h3>
+        <p>Complete quests and earn achievements to gain bonus rewards and experience.</p>
+
         <h3>Level Up</h3>
-        <p>Build 3 structures to reach Level 2 and unlock the Mine building.</p>
+        <p>Gain experience to level up and unlock new buildings and features.</p>
+
+        <h3>Daily Rewards</h3>
+        <p>Return each day to claim your daily reward and bonus resources.</p>
 
         <h3>Keyboard Shortcuts</h3>
         <p>Press <strong>R</strong> to reset the game.</p>
+        <p>Press <strong>H</strong> to open this help screen.</p>
+        <p>Press <strong>1-4</strong> to switch between tabs.</p>
       </div>
     </div>
   </div>
 
+  <!-- Daily Reward Modal -->
+  <div id="daily-reward-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>Daily Reward</h2>
+      <div class="daily-reward-container">
+        <div class="daily-streak">
+          <h3>Day <span id="daily-streak-count">1</span></h3>
+          <p>Come back tomorrow for more rewards!</p>
+        </div>
+        <div class="reward-calendar">
+          <div class="reward-day" data-day="1">
+            <div class="day-number">1</div>
+            <div class="day-reward">🪵 ×10</div>
+          </div>
+          <div class="reward-day" data-day="2">
+            <div class="day-number">2</div>
+            <div class="day-reward">🍎 ×10</div>
+          </div>
+          <div class="reward-day" data-day="3">
+            <div class="day-number">3</div>
+            <div class="day-reward">🪨 ×10</div>
+          </div>
+          <div class="reward-day" data-day="4">
+            <div class="day-number">4</div>
+            <div class="day-reward">💎 ×1</div>
+          </div>
+          <div class="reward-day" data-day="5">
+            <div class="day-number">5</div>
+            <div class="day-reward">All ×15</div>
+          </div>
+          <div class="reward-day" data-day="6">
+            <div class="day-number">6</div>
+            <div class="day-reward">💎 ×2</div>
+          </div>
+          <div class="reward-day special" data-day="7">
+            <div class="day-number">7</div>
+            <div class="day-reward">💎 ×5</div>
+          </div>
+        </div>
+        <button id="claim-reward" class="claim-button">Claim Reward</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Special Event Modal -->
+  <div id="special-event-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>Special Event</h2>
+      <div class="special-event-container">
+        <div class="event-header">
+          <div class="event-icon">🎉</div>
+          <div class="event-title">Resource Rush</div>
+        </div>
+        <div class="event-description">
+          <p>Limited time event! All resource gains are doubled for the next 30 minutes!</p>
+        </div>
+        <div class="event-timer">
+          <div class="timer-label">Time Remaining:</div>
+          <div class="timer-value" id="event-timer">30:00</div>
+        </div>
+        <button id="start-event" class="event-button">Start Event (💎 2)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>Settings</h2>
+      <div class="settings-container">
+        <div class="setting-item">
+          <label for="sound-toggle">Sound Effects</label>
+          <label class="switch">
+            <input type="checkbox" id="sound-toggle" checked>
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <label for="music-toggle">Background Music</label>
+          <label class="switch">
+            <input type="checkbox" id="music-toggle" checked>
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <label for="notifications-toggle">Notifications</label>
+          <label class="switch">
+            <input type="checkbox" id="notifications-toggle" checked>
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <label for="save-cloud">Save to Cloud</label>
+          <button id="save-cloud" class="settings-button">Connect Account</button>
+        </div>
+        <div class="setting-item">
+          <label for="export-save">Export/Import Save</label>
+          <div class="export-import-buttons">
+            <button id="export-save" class="settings-button">Export</button>
+            <button id="import-save" class="settings-button">Import</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Level Up Modal -->
+  <div id="level-up-modal" class="modal">
+    <div class="modal-content celebration">
+      <span class="close-button">&times;</span>
+      <div class="celebration-container">
+        <h2>Level Up!</h2>
+        <div class="level-badge large" id="new-level">2</div>
+        <p>Congratulations! You've reached level <span id="level-up-text">2</span>!</p>
+        <div class="level-rewards">
+          <h3>Rewards:</h3>
+          <ul id="level-rewards-list">
+            <li>Unlocked: Mine Building</li>
+            <li>+20 Max Energy</li>
+            <li>+1 Gem</li>
+          </ul>
+        </div>
+        <button id="level-up-claim" class="claim-button">Awesome!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Achievement Modal -->
+  <div id="achievement-modal" class="modal">
+    <div class="modal-content celebration">
+      <span class="close-button">&times;</span>
+      <div class="celebration-container">
+        <h2>Achievement Unlocked!</h2>
+        <div class="achievement-icon large" id="achievement-icon">🏆</div>
+        <h3 id="achievement-title">First Steps</h3>
+        <p id="achievement-description">Build 5 buildings</p>
+        <div class="achievement-rewards">
+          <h3>Rewards:</h3>
+          <ul id="achievement-rewards-list">
+            <li>+100 XP</li>
+            <li>+1 Gem</li>
+          </ul>
+        </div>
+        <button id="achievement-claim" class="claim-button">Claim</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>Sign In</h2>
+      <div class="auth-container">
+        <div class="auth-form">
+          <div class="form-group">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" placeholder="Enter your email">
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" placeholder="Enter your password">
+          </div>
+          <div class="auth-error" id="login-error"></div>
+          <button id="login-submit" class="auth-button">Sign In</button>
+        </div>
+        <div class="auth-options">
+          <p>Don't have an account? <a href="#" id="switch-to-register">Create one</a></p>
+          <p><a href="#" id="forgot-password">Forgot password?</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Register Modal -->
+  <div id="register-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>Create Account</h2>
+      <div class="auth-container">
+        <div class="auth-form">
+          <div class="form-group">
+            <label for="register-username">Username</label>
+            <input type="text" id="register-username" placeholder="Choose a username">
+          </div>
+          <div class="form-group">
+            <label for="register-email">Email</label>
+            <input type="email" id="register-email" placeholder="Enter your email">
+          </div>
+          <div class="form-group">
+            <label for="register-password">Password</label>
+            <input type="password" id="register-password" placeholder="Create a password">
+          </div>
+          <div class="form-group">
+            <label for="register-confirm">Confirm Password</label>
+            <input type="password" id="register-confirm" placeholder="Confirm your password">
+          </div>
+          <div class="auth-error" id="register-error"></div>
+          <button id="register-submit" class="auth-button">Create Account</button>
+        </div>
+        <div class="auth-options">
+          <p>Already have an account? <a href="#" id="switch-to-login">Sign in</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Trade Modal -->
+  <div id="create-trade-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>Create Trade Offer</h2>
+      <div class="trade-form">
+        <div class="trade-section">
+          <h3>You Offer</h3>
+          <div class="resource-trade-items">
+            <div class="resource-trade-item">
+              <label for="offer-wood">Wood</label>
+              <input type="number" id="offer-wood" min="0" value="0">
+            </div>
+            <div class="resource-trade-item">
+              <label for="offer-stone">Stone</label>
+              <input type="number" id="offer-stone" min="0" value="0">
+            </div>
+            <div class="resource-trade-item">
+              <label for="offer-food">Food</label>
+              <input type="number" id="offer-food" min="0" value="0">
+            </div>
+            <div class="resource-trade-item">
+              <label for="offer-gems">Gems</label>
+              <input type="number" id="offer-gems" min="0" value="0">
+            </div>
+          </div>
+        </div>
+        <div class="trade-section">
+          <h3>You Request</h3>
+          <div class="resource-trade-items">
+            <div class="resource-trade-item">
+              <label for="request-wood">Wood</label>
+              <input type="number" id="request-wood" min="0" value="0">
+            </div>
+            <div class="resource-trade-item">
+              <label for="request-stone">Stone</label>
+              <input type="number" id="request-stone" min="0" value="0">
+            </div>
+            <div class="resource-trade-item">
+              <label for="request-food">Food</label>
+              <input type="number" id="request-food" min="0" value="0">
+            </div>
+            <div class="resource-trade-item">
+              <label for="request-gems">Gems</label>
+              <input type="number" id="request-gems" min="0" value="0">
+            </div>
+          </div>
+        </div>
+        <div class="trade-section">
+          <h3>Select Friend</h3>
+          <select id="trade-friend-select">
+            <option value="">-- Select a friend --</option>
+          </select>
+        </div>
+        <div class="trade-error" id="trade-error"></div>
+        <button id="submit-trade" class="trade-button">Create Trade</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trade Offer Modal -->
+  <div id="trade-offer-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>Trade Offer</h2>
+      <div class="trade-offer-container">
+        <div class="trade-offer-header">
+          <div id="trade-from">From: <span id="trade-from-name">Player</span></div>
+        </div>
+        <div class="trade-offer-details">
+          <div class="trade-column">
+            <h3>You Receive</h3>
+            <div id="trade-receive-resources" class="trade-resources"></div>
+          </div>
+          <div class="trade-column">
+            <h3>You Give</h3>
+            <div id="trade-give-resources" class="trade-resources"></div>
+          </div>
+        </div>
+        <div class="trade-actions">
+          <button id="accept-trade" class="trade-button accept">Accept Trade</button>
+          <button id="decline-trade" class="trade-button decline">Decline</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Visit Island Modal -->
+  <div id="visit-island-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>Visit Friend's Island</h2>
+      <div class="visit-island-container">
+        <div class="friend-island-header">
+          <h3 id="friend-island-name">Friend's Island</h3>
+          <div class="friend-island-stats">
+            <span id="friend-level">Level: 1</span>
+            <span id="friend-buildings">Buildings: 0</span>
+          </div>
+        </div>
+        <div class="friend-island-grid">
+          <div class="island-background"></div>
+          <div id="friend-island"></div>
+        </div>
+        <div class="visit-actions">
+          <button id="send-gift" class="visit-button">Send Gift</button>
+          <button id="leave-island" class="visit-button">Return Home</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <!-- Firebase Auth -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <!-- Firebase Firestore -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <!-- Game Scripts -->
+  <script src="firebase-config.js"></script>
+  <script src="social.js"></script>
   <script src="game.js"></script>
 </body>
 </html>
